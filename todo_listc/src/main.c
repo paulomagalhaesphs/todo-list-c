@@ -8,6 +8,7 @@ typedef struct {
     char descricao[TAM_DESCRICAO];
     int concluida;
 } Tarefa;
+
 Tarefa tarefas[MAX_TAREFAS];
 int totalTarefas = 0;
 
@@ -20,15 +21,35 @@ void mostrarMenu() {
     printf("5 - Sair\n");
     printf("Escolha uma opcao: ");
 }
+
+void adicionarTarefa() {
+    if (totalTarefas >= MAX_TAREFAS) {
+        printf("Limite de tarefas atingido!\n");
+        return;
+    }
+
+    getchar();
+
+    printf("Digite a descricao da tarefa: ");
+    fgets(tarefas[totalTarefas].descricao, TAM_DESCRICAO, stdin);
+
+    tarefas[totalTarefas].descricao[strcspn(tarefas[totalTarefas].descricao, "\n")] = '\0';
+    tarefas[totalTarefas].concluida = 0;
+    totalTarefas++;
+
+    printf("Tarefa adicionada com sucesso!\n");
+}
+
 int main() {
     int opcao;
 
     do {
         mostrarMenu();
         scanf("%d", &opcao);
+
         switch (opcao) {
             case 1:
-                printf("Opcao adicionar tarefa em desenvolvimento.\n");
+                adicionarTarefa();
                 break;
             case 2:
                 printf("Opcao listar tarefas em desenvolvimento.\n");
@@ -44,10 +65,9 @@ int main() {
                 break;
             default:
                 printf("Opcao invalida!\n");
-
         }
-    }
-    while (opcao != 5);
+
+    } while (opcao != 5);
 
     return 0;
 }
